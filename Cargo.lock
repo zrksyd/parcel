@@ -264,7 +264,7 @@ dependencies = [
 [[package]]
 name = "prcx"
 version = "0.1.0"
-source = "git+https://github.com/blu-dev/prcx?branch=xml-style#c1460596223bca37a1b9fd193db970b7420b0094"
+source = "git+https://github.com/zrksyd/prcx?branch=xml-style-zrksyd#e9f2605bdfa37ad02271956e4990eae639bece2b"
 dependencies = [
  "bincode",
  "lazy_static",

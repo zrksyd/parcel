@@ -6,7 +6,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-prcx = { git = "https://github.com/blu-dev/prcx", branch = "xml-style" }
+prcx = { git = "https://github.com/zrksyd/prcx", branch = "xml-style-zrksyd" }
 # prcx = { path = "../prcx" }
 structopt = "0.3.26"
 
