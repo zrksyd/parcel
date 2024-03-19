@@ -12,7 +12,7 @@ enum Opt {
         modded: PathBuf,
 
         #[structopt(parse(from_os_str))]
-        output: PathBuf,
+        output: Option<PathBuf>,
 
         #[structopt(short = "t", long = "type", default_value = "bin")]
         out_type: String,
@@ -32,20 +32,28 @@ enum Opt {
     },
 }
 
-fn handle_diff(source: PathBuf, modded: PathBuf, output: PathBuf, is_text: bool) {
+fn handle_diff(source: PathBuf, modded: PathBuf, output: Option<PathBuf>, is_text: bool) {
+    let output_file_name = if is_text {
+        output.unwrap_or_else(|| PathBuf::from(format!("{}xml", modded.display())))
+    } else {
+        output.unwrap_or_else(|| PathBuf::from(format!("{}x", modded.display())))
+    };
+
     let source = prcx::open(source).unwrap();
     let modded = prcx::open(modded).unwrap();
+
     let diff = prcx::generate_patch(&source, &modded).unwrap();
     match diff {
         Some(diff) => {
             if is_text {
-                let mut file = std::io::BufWriter::new(std::fs::File::create(output).unwrap());
+                let mut file =
+                    std::io::BufWriter::new(std::fs::File::create(output_file_name).unwrap());
                 prcx::write_xml(&diff, &mut file).unwrap();
             } else {
-                prcx::save(output, &diff).unwrap();
+                prcx::save(output_file_name, &diff).unwrap();
             }
         }
-        None => println!("No differences were found between the two files"),
+        None => println!("No differences were found between the two files."),
     }
 }
 
